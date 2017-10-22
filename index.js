@@ -52,8 +52,42 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
         	res.on('end', () => {
         		let apiresp = JSON.parse(body);
         		let temp = apiresp.main.temp;
+        		let weather = apiresp.weather[0].main;
         		//Making the JSON for Dialogflow response
-                let msg = `Suhu di ${kota} ${temp} derajat.`;
+        		let cuaca;
+        		if (weather == "Thunderstorm"){
+        		cuaca = 'ujan badai';
+        		}
+        		if (weather == "Drizzle"){
+        		cuaca = 'gerimis';
+        		}
+        		if (weather == "Rain"){
+        		cuaca = 'ujan';
+        		}
+        		if (weather == "Snow"){
+        		cuaca = 'ujan salju';
+        		}
+        		if (weather == "Atmosphere"){
+        		cuaca = 'berkabut';
+        		}
+        		if (weather == "Clear"){
+        		cuaca = 'cerah';
+        		}
+        		if (weather == "Clouds"){
+        		cuaca = 'berawan doang';
+        		}
+        		if (weather == "Extreme"){
+        		cuaca = 'ektrim nih';
+        		}
+        		if (weather == "Additional"){
+        		cuaca = 'berangin';
+        		}
+        		let msg;
+        		if (cuaca == 'cerah') {
+        		    msg = 'Hari ini cuaca cerah gan';
+        		} else {
+                msg = `Hari ini ${cuaca} nih, jangan lupa bawa payung yak`;
+        		}
                 // Define the response users will hear
                 responseJson.speech = msg ;
                 // Define the response users will see
